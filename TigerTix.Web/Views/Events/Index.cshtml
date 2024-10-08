@@ -1,26 +1,25 @@
+<!-- Views/Events/Index.cshtml -->
+@model IEnumerable<TigerTix.Web.Models.Event>
+
 @{
     ViewData["Title"] = "Events";
 }
 
 <h2>Upcoming Events</h2>
 
-<!-- Placeholder content -->
-<div class="card-deck">
-    <div class="card">
-        <img src="https://via.placeholder.com/150" class="card-img-top" alt="Event Image">
-        <div class="card-body">
-            <h5 class="card-title">Event 1</h5>
-            <p class="card-text">Description of Event 1.</p>
-            <a href="/Events/Details/1" class="btn btn-primary">View Details</a>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text">@item.Description</p>
+                    <p><strong>Date:</strong> @item.Date.ToString("dd MMM yyyy")</p>
+                    <a href="/Events/Details/@item.Id" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="card">
-        <img src="https://via.placeholder.com/150" class="card-img-top" alt="Event Image">
-        <div class="card-body">
-            <h5 class="card-title">Event 2</h5>
-            <p class="card-text">Description of Event 2.</p>
-            <a href="/Events/Details/2" class="btn btn-primary">View Details</a>
-        </div>
-    </div>
-    <!-- Add more cards as needed -->
+    }
 </div>
