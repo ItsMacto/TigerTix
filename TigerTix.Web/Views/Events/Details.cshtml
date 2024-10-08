@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = "Event Details";
+}
+
+<h2>Event Details</h2>
+
+<!-- Placeholder content using the EventId from ViewData -->
+<div class="card">
+    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Event Image">
+    <div class="card-body">
+        <h5 class="card-title">Event @ViewData["EventId"]</h5>
+        <p class="card-text">Details about Event @ViewData["EventId"].</p>
+        <a href="#" class="btn btn-success">Buy Ticket</a>
+    </div>
+</div>
