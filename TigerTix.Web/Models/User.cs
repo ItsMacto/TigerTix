@@ -3,6 +3,7 @@ namespace TigerTix.Web.Models
 {
     public class User
     {
+        public int Id { get; set; }             // Primary key
         public string Username { get; set; }    // User's username
         public string Password { get; set; }    // User's password
         public string FullName { get; set; }    // User's full name
