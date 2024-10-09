@@ -74,3 +74,4 @@ UpgradeLog*.htm
 # Generated files and temporary assets
 Generated_Code/
 
+repopack-output.txt
