@@ -60,13 +60,7 @@ jobs:
       - name: 'Login to Azure'
         uses: azure/login@v2
         with:
-<<<<<<< HEAD
-          creds: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          enable-oidc: false
-          auth-type: 'publishProfile'
-=======
           creds: ${{ secrets.AZURE_CREDENTIALS }}
->>>>>>> 3b494b8 (Please work)
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
