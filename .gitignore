@@ -26,9 +26,6 @@ packages/
 *.opencover.xml
 coverage-results/
 
-# Publish and Deployment
-publish/
-*.Publish.xml
 
 # Temporary files
 *.tmp
