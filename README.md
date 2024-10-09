@@ -12,3 +12,5 @@ dotnet ef database update
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+
+test
