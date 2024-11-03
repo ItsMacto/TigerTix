@@ -16,5 +16,24 @@
         <label asp-for="Password"></label>
         <input asp-for="Password" class="form-control" placeholder="Enter password" type="password" />
     </div>
+    <!-- New CUID Field -->
+    <div class="form-group">
+        <label asp-for="CUID">CUID (optional):</label>
+        <input asp-for="CUID" class="form-control" placeholder="C12345678" />
+        <span asp-validation-for="CUID" class="text-danger"></span>
+    </div>
+
     <button type="submit" class="btn btn-primary mt-3">Login</button>
 </form>
+
+<script>
+    document.querySelector('input[name="CUID"]').addEventListener('input', function () {
+        const cuidPattern = /^C\d{8}$/;
+        const cuidField = this;
+        if (cuidField.value && !cuidPattern.test(cuidField.value)) {
+            cuidField.setCustomValidity("CUID should start with 'C' followed by 8 digits.");
+        } else {
+            cuidField.setCustomValidity("");
+        }
+    });
+</script>
