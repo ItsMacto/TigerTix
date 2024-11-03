@@ -21,40 +21,7 @@ body {
   margin-bottom: 60px;
 }
 
-/* These are Just some changes Jake made to the background of the home page idk if u guys want to keep this or not*/
 
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0.7, 0.1, 0.6, 0.3); /* Adjust opacity for darkness (0.5 for 50%) */
-  z-index: -1; /* Keep the overlay behind content */
-  pointer-events: none; /* Allow interaction with content */
-}
 
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('/images/death-valley-clemson.jpg');
-  background-size: cover;
-  background-position: center;
-  filter: blur(5px) brightness(0.7); /* Adjust blur and brightness */
-  z-index: -1;
-}
 
-/* Homepage Background Image */
-body {
-  background-image: url('/images/death-valley-clemson.jpg'); /* path to the image */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-color: #F66733; 
-}
+
