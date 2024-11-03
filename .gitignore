@@ -75,3 +75,5 @@ UpgradeLog*.htm
 Generated_Code/
 
 repopack-output.txt
+.repopackignore
+repopack.config.json
