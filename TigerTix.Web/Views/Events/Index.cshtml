@@ -1,4 +1,3 @@
-<!-- Views/Events/Index.cshtml -->
 @model IEnumerable<TigerTix.Web.Models.Event>
 
 @{
@@ -7,19 +6,26 @@
 
 <h2>Upcoming Events</h2>
 
+<form asp-action="Index" method="get" class="form-inline mb-4">
+    <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control mr-sm-2" placeholder="Search events..." />
+    <button type="submit" class="btn btn-outline-success">Search</button>
+</form>
+
 <div class="row">
     @foreach (var item in Model)
     {
         <div class="col-md-4">
-            <div class="card mb-4">
+            <div class="card mb-4 shadow-sm">
                 <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name">
                 <div class="card-body">
                     <h5 class="card-title">@item.Name</h5>
                     <p class="card-text">@item.Description</p>
                     <p><strong>Date:</strong> @item.Date.ToString("dd MMM yyyy")</p>
-                    <a href="/Events/Details/@item.Id" class="btn btn-primary">View Details</a>
+                    <p><strong>Category:</strong> @item.Category</p>
+                    <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-primary">View Details</a>
                 </div>
             </div>
         </div>
     }
+}
 </div>
