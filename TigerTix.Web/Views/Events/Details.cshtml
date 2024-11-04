@@ -1,18 +1,21 @@
-<!-- Views/Events/Details.cshtml -->
 @model TigerTix.Web.Models.Event
 
 @{
     ViewData["Title"] = "Event Details";
 }
 
-<div class="card">
+<div class="card mb-4">
     <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name">
     <div class="card-body">
         <h2 class="card-title">@Model.Name</h2>
         <p class="card-text">@Model.Description</p>
-        <p><strong>Date:</strong> @Model.Date.ToString("dd MMM yyyy")</p>
+        <p><strong>Date:</strong> @Model.Date.ToString("dddd, dd MMMM yyyy")</p>
+        <p><strong>Time:</strong> @Model.Date.ToString("hh:mm tt")</p>
         <p><strong>Location:</strong> @Model.Location</p>
+        <p><strong>Category:</strong> @Model.Category</p>
+        <p><strong>Organizer:</strong> @Model.Organizer</p>
         <p><strong>Price:</strong> $@Model.Price</p>
+        <p><strong>Tickets Available:</strong> @Model.AvailableTickets</p>
         <a href="#" class="btn btn-success">Buy Ticket</a>
     </div>
 </div>
