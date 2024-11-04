@@ -29,15 +29,4 @@ body {
   border-top-right-radius: 10px;
 }
 
-/* Adjust the navbar */
-.navbar {
-  background-color: #f66733; /* Clemson Orange */
-}
 
-.nav-link, .navbar-brand {
-  color: #fff !important;
-}
-
-.nav-link:hover, .navbar-brand:hover {
-  color: #fedf00 !important; /* Clemson Gold */
-}
