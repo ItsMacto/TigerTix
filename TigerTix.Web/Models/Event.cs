@@ -1,5 +1,6 @@
 // Models/Event.cs
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web;
 
 namespace TigerTix.Web.Models
 {
@@ -13,5 +14,7 @@ namespace TigerTix.Web.Models
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }      // Ticket Price
         public string ImageUrl { get; set; }    // Image URL for the event
+        public IFormFile UploadImage {get; set;} //IForm File 
+        public decimal Capacity {get; set;}     //Capacity of the event
     }
 }
