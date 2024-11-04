@@ -37,6 +37,9 @@
                         @if (User.Identity?.IsAuthenticated ?? false)
                         {
                             <li class="nav-item">
+                                <span class="nav-link">Logged in as @User.Identity.Name</span>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="/Account/Logout">Logout</a>
                             </li>
                         }
