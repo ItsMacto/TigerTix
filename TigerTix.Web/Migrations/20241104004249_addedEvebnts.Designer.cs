@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TigerTix.Web.Data;
 
@@ -11,9 +12,11 @@ using TigerTix.Web.Data;
 namespace TigerTix.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241104004249_addedEvebnts")]
+    partial class addedEvebnts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,9 +76,9 @@ namespace TigerTix.Web.Migrations
                             Id = 1,
                             AvailableTickets = 150,
                             Category = "Music",
-                            Date = new DateTime(2024, 11, 18, 19, 47, 53, 359, DateTimeKind.Local).AddTicks(2320),
+                            Date = new DateTime(2024, 11, 18, 19, 42, 49, 765, DateTimeKind.Local).AddTicks(6760),
                             Description = "Experience an electrifying night with top rock bands.",
-                            ImageUrl = "https://images.unsplash.com/photo-1712763113004-e375adb253c3?q=80&w=2748&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                            ImageUrl = "/images/rock-concert.jpg",
                             Location = "Madison Square Garden",
                             Name = "Rock Concert",
                             Organizer = "Live Nation",
@@ -86,9 +89,9 @@ namespace TigerTix.Web.Migrations
                             Id = 2,
                             AvailableTickets = 300,
                             Category = "Exhibition",
-                            Date = new DateTime(2024, 12, 3, 19, 47, 53, 359, DateTimeKind.Local).AddTicks(2360),
+                            Date = new DateTime(2024, 12, 3, 19, 42, 49, 765, DateTimeKind.Local).AddTicks(6790),
                             Description = "Discover contemporary art from around the world.",
-                            ImageUrl = "https://images.unsplash.com/photo-1627818032590-6fab3d942af9?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                            ImageUrl = "/images/art-expo.jpg",
                             Location = "Art Gallery of Ontario",
                             Name = "Art Expo",
                             Organizer = "Art World",
