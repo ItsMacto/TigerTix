@@ -4,6 +4,16 @@
     ViewData["Title"] = "Event Details";
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
 <div class="card mb-4">
     <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name">
     <div class="card-body">
@@ -16,6 +26,37 @@
         <p><strong>Organizer:</strong> @Model.Organizer</p>
         <p><strong>Price:</strong> $@Model.Price</p>
         <p><strong>Tickets Available:</strong> @Model.AvailableTickets</p>
-        <a href="#" class="btn btn-success">Buy Ticket</a>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#buyTicketModal">
+            Buy Ticket
+        </button>
+    </div>
+</div>
+
+<!-- Ticket Purchase Modal -->
+<div class="modal fade" id="buyTicketModal" tabindex="-1" aria-labelledby="buyTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="buyTicketModalLabel">Purchase Ticket</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6>@Model.Name</h6>
+                <p>@Model.Description</p>
+                <p><strong>Date:</strong> @Model.Date.ToString("dddd, dd MMMM yyyy")</p>
+                <p><strong>Location:</strong> @Model.Location</p>
+                <p><strong>Price per Ticket:</strong> $@Model.Price</p>
+                <p><strong>Tickets Available:</strong> @Model.AvailableTickets</p>
+                
+                <form method="post" action="/Events/ConfirmPurchase">
+                    <div class="mb-3">
+                        <label for="ticketQuantity" class="form-label">Select Quantity</label>
+                        <input type="number" name="ticketQuantity" id="ticketQuantity" class="form-control" min="1" max="@Model.AvailableTickets" value="1" required />
+                    </div>
+                    <input type="hidden" name="eventId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-primary"><Address><Address>Add To Cart</Address></Address></button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>

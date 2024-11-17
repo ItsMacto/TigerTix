@@ -1,0 +1,42 @@
+@model ConfirmPurchaseViewModel
+
+@{
+    ViewData["Title"] = "Confirm Purchase";
+}
+
+<h2>Confirm Purchase for @Model.Event.Name</h2>
+
+<div>
+    <p><strong>Date:</strong> @Model.Event.Date.ToString("dddd, dd MMMM yyyy")</p>
+    <p><strong>Location:</strong> @Model.Event.Location</p>
+    <p><strong>Ticket Quantity:</strong> @Model.TicketQuantity</p>
+    <p><strong>Price per Ticket:</strong> $@Model.Event.Price</p>
+    <p><strong>Total Price:</strong> $@Model.TotalPrice</p>
+</div>
+
+<hr />
+
+<h3>Enter Payment Information</h3>
+
+<form method="post" asp-action="CompletePurchase">
+    <input type="hidden" name="eventId" value="@Model.Event.Id" />
+    <input type="hidden" name="ticketQuantity" value="@Model.TicketQuantity" />
+    <input type="hidden" name="totalPrice" value="@Model.TotalPrice" />
+
+    <div class="mb-3">
+        <label for="cardNumber" class="form-label">Card Number</label>
+        <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="1111 2222 3333 4444" required pattern="\d{4} \d{4} \d{4} \d{4}" title="Card number should be in the format '1111 2222 3333 4444'" />
+    </div>
+
+    <div class="mb-3">
+        <label for="cardExpiry" class="form-label">Expiry Date</label>
+        <input type="text" class="form-control" id="cardExpiry" name="cardExpiry" placeholder="MM/YY" required pattern="(0[1-9]|1[0-2])\/[0-9]{2}" title="Expiry date should be in the format 'MM/YY'" />
+    </div>
+
+    <div class="mb-3">
+        <label for="cardCVC" class="form-label">CVC</label>
+        <input type="text" class="form-control" id="cardCVC" name="cardCVC" placeholder="123" required pattern="\d{3}" title="CVC should be a 3-digit number" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Complete Purchase</button>
+</form>

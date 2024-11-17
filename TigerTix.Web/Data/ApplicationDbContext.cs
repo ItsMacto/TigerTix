@@ -11,8 +11,8 @@ namespace TigerTix.Web.Data
         {
         }
 
-        public DbSet<Event> Events { get; set; }
-        public DbSet<User> Users { get; set; }
+        public required DbSet<Event> Events { get; set; }
+        public required DbSet<User> Users { get; set; }
 
         // Override the OnModelCreating method to seed data
 
