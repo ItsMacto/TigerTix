@@ -20,7 +20,7 @@ namespace TigerTix.Web.Controllers
 
 
         // GET: Events
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string eventType)
         {
             var events = from e in _context.Events
                          select e;
@@ -28,6 +28,12 @@ namespace TigerTix.Web.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 events = events.Where(s => s.Name.Contains(searchString) || s.Category.Contains(searchString));
+            }
+
+            // Filter by event type if provided
+            if (!string.IsNullOrEmpty(eventType))
+            {
+                events = events.Where(e => e.EventType == eventType);
             }
 
             return View(await events.ToListAsync());
