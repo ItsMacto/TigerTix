@@ -49,5 +49,53 @@ namespace TigerTix.Web.Controllers
             }
             return View(eventItem);
         }
+
+        // POST: Events/ConfirmPurchase
+        [HttpPost]
+        public IActionResult ConfirmPurchase(int eventId, int ticketQuantity)
+        {
+            var eventItem = _context.Events.Find(eventId);
+            if (eventItem == null || ticketQuantity <= 0)
+            {
+                return RedirectToAction("Details", new { id = eventId });
+            }
+
+            var isStudent = User.Identity?.IsAuthenticated == true && User.Claims.Any(c => c.Type == "CUID");
+
+            var totalPrice = ticketQuantity * eventItem.Price;
+            if (isStudent)
+            {
+                totalPrice *= 0.9m; // Applying a 10% discount for students
+            }
+
+            var viewModel = new ConfirmPurchaseViewModel
+            {
+                Event = eventItem,
+                TicketQuantity = ticketQuantity,
+                TotalPrice = totalPrice,
+                IsStudent = isStudent
+            };
+
+            return View(viewModel);
+        }
+
+        // POST: Events/CompletePurchase
+        [HttpPost]
+        public IActionResult CompletePurchase(int eventId, int ticketQuantity, decimal totalPrice)
+        {
+            // Here you could add logic to update the database, e.g., deduct tickets, process payment, etc.
+            var eventItem = _context.Events.Find(eventId);
+            if (eventItem == null || ticketQuantity <= 0 || ticketQuantity > eventItem.AvailableTickets)
+            {
+                return RedirectToAction("Details", new { id = eventId });
+            }
+
+            // Deduct the ticket quantity from the available tickets
+            eventItem.AvailableTickets -= ticketQuantity;
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = "Purchase successful!";
+            return RedirectToAction("Details", new { id = eventId });
+        }
     }
 }
