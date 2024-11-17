@@ -6,8 +6,18 @@
 
 <h2>Upcoming Events</h2>
 
+<!-- Event Filter Form -->
 <form asp-action="Index" method="get" class="form-inline mb-4">
+    <!-- Search Field -->
     <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control mr-sm-2" placeholder="Search events..." />
+
+    <!-- Event Type Dropdown -->
+    <select name="eventType" class="form-control mr-sm-2">
+        <option value="">Filter Events</option>
+        <option value="Concert">Concert</option>
+        <option value="Sports">Sports</option>
+    </select>
+
     <button type="submit" class="btn btn-outline-success">Search</button>
 </form>
 

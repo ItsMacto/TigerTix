@@ -32,7 +32,8 @@ namespace TigerTix.Web.Data
                     ImageUrl = "https://media.newyorker.com/photos/652d4cfca2dd76a04bfbc885/3:4/w_1281,h_1708,c_limit/Brody-Eras-Tour.jpg",
                     Category = "Concert",
                     Organizer = "Live Nation",
-                    AvailableTickets = 500
+                    AvailableTickets = 500,
+                    EventType = "Concert"
                 },
                 new Event
                 {
@@ -45,7 +46,8 @@ namespace TigerTix.Web.Data
                     ImageUrl = "https://s.yimg.com/ny/api/res/1.2/ntZ3XGuHy7vENfP_QzxHKg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQ1MA--/https://media.zenfs.com/en/hoops_hype_usa_today_sports_articles_974/fe1e67ea89571d4532c900e622786b6f",
                     Category = "Sports",
                     Organizer = "NBA",
-                    AvailableTickets = 300
+                    AvailableTickets = 300,
+                    EventType = "Sports"
                 },
                 new Event
                 {
@@ -58,7 +60,8 @@ namespace TigerTix.Web.Data
                     ImageUrl = "https://plsn.com/site/wp-content/uploads/1_COLDPLAY-12-©-Steve-Jennings.jpg",
                     Category = "Concert",
                     Organizer = "Live Nation",
-                    AvailableTickets = 450
+                    AvailableTickets = 450,
+                    EventType = "Concert"
                 },
                 new Event
                 {
@@ -71,7 +74,8 @@ namespace TigerTix.Web.Data
                     ImageUrl = "https://packerswire.usatoday.com/wp-content/uploads/sites/57/2019/09/gettyimages-1172622091-e1568073746100.jpg?w=1000&h=600&crop=1",
                     Category = "Sports",
                     Organizer = "NFL",
-                    AvailableTickets = 350
+                    AvailableTickets = 350,
+                    EventType = "Sports"
                 },
                 new Event
                 {
@@ -84,7 +88,8 @@ namespace TigerTix.Web.Data
                     ImageUrl = "https://surgfm.com/wp-content/uploads/2023/03/ed-sheeran-1.webp",
                     Category = "Concert",
                     Organizer = "Live Nation",
-                    AvailableTickets = 400
+                    AvailableTickets = 400,
+                    EventType = "Concert"
                 },
                 new Event
                 {
@@ -97,7 +102,8 @@ namespace TigerTix.Web.Data
                     ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fseatgeek.com%2Fyankees-red-sox-tickets&psig=AOvVaw3CNpQQifM862SFlYfhF76O&ust=1730771043013000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLj2k9vGwYkDFQAAAAAdAAAAABAE",
                     Category = "Sports",
                     Organizer = "MLB",
-                    AvailableTickets = 250
+                    AvailableTickets = 250,
+                    EventType = "Sports"
                 },
                 new Event
                 {
@@ -110,7 +116,8 @@ namespace TigerTix.Web.Data
                     ImageUrl = "https://static.wikia.nocookie.net/the-bangtan-boys/images/4/43/BTS_Map_of_the_Soul_Tour.jpeg/revision/latest?cb=20200122062646",
                     Category = "Concert",
                     Organizer = "Big Hit Music",
-                    AvailableTickets = 550
+                    AvailableTickets = 550,
+                    EventType = "Concert"
                 },
                 new Event
                 {
@@ -123,7 +130,8 @@ namespace TigerTix.Web.Data
                     ImageUrl = "https://static.clubs.nfl.com/image/upload/t_editorial_landscape_12_desktop/cowboys/qrozabo6cfsguc3bexop",
                     Category = "Sports",
                     Organizer = "NFL",
-                    AvailableTickets = 400
+                    AvailableTickets = 400,
+                    EventType = "Sports"
                 }
             );
         }

@@ -18,5 +18,6 @@ namespace TigerTix.Web.Models
         public required string Category { get; set; }       // Event Category
         public required string Organizer { get; set; }      // Event Organizer
         public int AvailableTickets { get; set; }  // Number of Available Tickets
+        public string? EventType {  get; set; } // event type for filtering
     }
 }
