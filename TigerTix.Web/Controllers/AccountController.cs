@@ -1,23 +1,29 @@
-// Controllers/AccountController.cs
 using Microsoft.AspNetCore.Mvc;
+using TigerTix.Web.Models;
+using System.Net.Http;
+using System.Net.Http.Json;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using TigerTix.Web.Data;
-using TigerTix.Web.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace TigerTix.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly HttpClient _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AccountController(ApplicationDbContext context)
+        public AccountController(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
         {
-            _context = context;
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
+            _httpContextAccessor = httpContextAccessor;
+
+            // Set the BaseAddress to the current request's base URL
+            var request = _httpContextAccessor.HttpContext?.Request;
+            if (request != null)
+            {
+                _httpClient.BaseAddress = new Uri($"{request.Scheme}://{request.Host}");
+            }
         }
 
         public IActionResult Login()
@@ -28,34 +34,40 @@ namespace TigerTix.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
-            // Find the user in the database by username
-            var dbUser = await _context.Users.SingleOrDefaultAsync(u => u.Username == user.Username);
-
-            if (dbUser != null)
+            var response = await _httpClient.PostAsJsonAsync("api/AccountsApi/Login", user);
+            if (response.IsSuccessStatusCode)
             {
-                var passwordHasher = new PasswordHasher<User>();
-                var result = passwordHasher.VerifyHashedPassword(dbUser, dbUser.Password, user.Password);
+                // Retrieve the user from the API (you may need to adjust this)
+                var dbUser = await response.Content.ReadFromJsonAsync<User>();
 
-                if (result == PasswordVerificationResult.Success)
+                // Create claims based on user information
+                var claims = new List<Claim>
                 {
-                    // Create a list of claims. Here, we're adding the username as a claim.
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, dbUser.Username)
-                    };
+                    new Claim(ClaimTypes.Name, dbUser.Username),
+                    new Claim(ClaimTypes.NameIdentifier, dbUser.Id.ToString()),
+                    new Claim(ClaimTypes.Email, dbUser.Email ?? ""),
+                    new Claim("FullName", dbUser.FullName ?? ""),
+                    // Add other claims as necessary
+                };
 
-                    // Create the claims identity
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                    // Sign in the user with the created claims principal
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                // Authentication properties
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true, // Keeps the user logged in
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7)
+                };
 
-                    // Redirect to home after successful login
-                    return RedirectToAction("Index", "Home");
-                }
+                // Sign in the user
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+
+                return RedirectToAction("Index", "Home");
             }
 
-            // If login fails, add an error and return to the login view
             ModelState.AddModelError("", "Invalid login attempt.");
             return View(user);
         }
@@ -68,30 +80,21 @@ namespace TigerTix.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(User user)
         {
-            if (ModelState.IsValid)
+            var response = await _httpClient.PostAsJsonAsync("api/AccountsApi/Register", user);
+            if (response.IsSuccessStatusCode)
             {
-                // Hash the password before storing it
-                var passwordHasher = new PasswordHasher<User>();
-                user.Password = passwordHasher.HashPassword(user, user.Password);
-
-                // Save the user to the database
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
-
-                // Redirect to the login page after successful registration
-                return RedirectToAction("Login");
+                // Optionally log the user in after successful registration
+                return await Login(user);
             }
 
-            // If the model state is invalid, return the user to the registration form
+            var errorContent = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError("", $"Registration failed: {errorContent}");
             return View(user);
         }
 
         public async Task<IActionResult> Logout()
         {
-            // Sign out the user by removing the authentication cookie
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            // Redirect to the homepage after logout
             return RedirectToAction("Index", "Home");
         }
     }
