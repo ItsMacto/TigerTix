@@ -1,0 +1,516 @@
+openapi: 3.0.0
+info:
+  title: TigerTix API
+  version: 1.0.0
+servers:
+  - url: https://tigertixwebapp-gma2dcgjbxhzcgcu.eastus-01.azurewebsites.net
+paths:
+  /api/AccountsApi/Register:
+    post:
+      summary: Register a new user
+      tags:
+        - AccountsApi
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistrationRequest'
+            examples:
+              userRegistration:
+                summary: Sample user registration request
+                value:
+                  username: "john_doe"
+                  password: "Secret123!"
+                  fullName: "John Doe"
+                  email: "john@example.com"
+                  isStudentAccount: true
+                  cuid: "C12345678"
+      responses:
+        '201':
+          description: Registration successful
+          headers:
+            Location:
+              description: URL of the created user
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                usernameExists:
+                  value:
+                    message: "Username already exists."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/AccountsApi/Login:
+    post:
+      summary: User login
+      tags:
+        - AccountsApi
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginRequest'
+            examples:
+              userLogin:
+                summary: Sample user login request
+                value:
+                  username: "john_doe"
+                  password: "Secret123!"
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+              examples:
+                userResponse:
+                  value:
+                    id: 1
+                    username: "john_doe"
+                    fullName: "John Doe"
+                    email: "john@example.com"
+                    isStudentAccount: true
+                    cuid: "C12345678"
+        '401':
+          description: Unauthorized (invalid credentials)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                unauthorized:
+                  value:
+                    message: "Invalid username or password."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/EventsApi:
+    get:
+      summary: Retrieve all events
+      tags:
+        - EventsApi
+      responses:
+        '200':
+          description: A list of events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+              examples:
+                eventsList:
+                  value:
+                    - id: 1
+                      name: "Taylor Swift - The Eras Tour"
+                      description: "Experience an unforgettable night with Taylor Swift's iconic hits."
+                      date: "2024-12-31T20:00:00Z"
+                      location: "SoFi Stadium, Los Angeles, CA"
+                      price: 150.00
+                      imageUrl: "https://example.com/taylor.jpg"
+                      category: "Concert"
+                      organizer: "Live Nation"
+                      availableTickets: 500
+                      eventType: "Concert"
+                    - id: 2
+                      name: "Los Angeles Lakers vs. Boston Celtics"
+                      description: "Catch the action as two legendary NBA teams go head-to-head."
+                      date: "2024-11-15T19:00:00Z"
+                      location: "Crypto.com Arena, Los Angeles, CA"
+                      price: 120.00
+                      imageUrl: "https://example.com/lakers.jpg"
+                      category: "Sports"
+                      organizer: "NBA"
+                      availableTickets: 300
+                      eventType: "Sports"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a new event
+      tags:
+        - EventsApi
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventCreateRequest'
+            examples:
+              newEvent:
+                summary: Sample event creation request
+                value:
+                  name: "Ed Sheeran - Mathematics Tour"
+                  description: "Ed Sheeran brings his latest hits to a city near you."
+                  date: "2025-01-20T20:00:00Z"
+                  location: "Allegiant Stadium, Las Vegas, NV"
+                  price: 130.00
+                  imageUrl: "https://example.com/edsheeran.jpg"
+                  category: "Concert"
+                  organizer: "Live Nation"
+                  availableTickets: 400
+                  eventType: "Concert"
+      responses:
+        '201':
+          description: Event created
+          headers:
+            Location:
+              description: URL of the created event
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+              examples:
+                createdEvent:
+                  value:
+                    id: 9
+                    name: "Ed Sheeran - Mathematics Tour"
+                    description: "Ed Sheeran brings his latest hits to a city near you."
+                    date: "2025-01-20T20:00:00Z"
+                    location: "Allegiant Stadium, Las Vegas, NV"
+                    price: 130.00
+                    imageUrl: "https://example.com/edsheeran.jpg"
+                    category: "Concert"
+                    organizer: "Live Nation"
+                    availableTickets: 400
+                    eventType: "Concert"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/EventsApi/{id}:
+    get:
+      summary: Get an event by ID
+      tags:
+        - EventsApi
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Event found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+              examples:
+                eventDetails:
+                  value:
+                    id: 1
+                    name: "Taylor Swift - The Eras Tour"
+                    description: "Experience an unforgettable night with Taylor Swift's iconic hits."
+                    date: "2024-12-31T20:00:00Z"
+                    location: "SoFi Stadium, Los Angeles, CA"
+                    price: 150.00
+                    imageUrl: "https://example.com/taylor.jpg"
+                    category: "Concert"
+                    organizer: "Live Nation"
+                    availableTickets: 500
+                    eventType: "Concert"
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                eventNotFound:
+                  value:
+                    message: "Event not found."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Update an event
+      tags:
+        - EventsApi
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventUpdateRequest'
+            examples:
+              updateEvent:
+                summary: Sample event update request
+                value:
+                  id: 1
+                  name: "Taylor Swift - The Eras Tour (Updated)"
+                  description: "Updated description."
+                  date: "2025-01-01T20:00:00Z"
+                  location: "SoFi Stadium, Los Angeles, CA"
+                  price: 155.00
+                  imageUrl: "https://example.com/taylor_updated.jpg"
+                  category: "Concert"
+                  organizer: "Live Nation"
+                  availableTickets: 450
+                  eventType: "Concert"
+      responses:
+        '204':
+          description: Event updated successfully
+        '400':
+          description: Bad Request (e.g., ID mismatch)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                idMismatch:
+                  value:
+                    message: "ID mismatch."
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                eventNotFound:
+                  value:
+                    message: "Event not found."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete an event
+      tags:
+        - EventsApi
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '204':
+          description: Event deleted successfully
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                eventNotFound:
+                  value:
+                    message: "Event not found."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    UserRegistrationRequest:
+      type: object
+      required:
+        - username
+        - password
+        - fullName
+        - email
+      properties:
+        username:
+          type: string
+          example: "john_doe"
+        password:
+          type: string
+          format: password
+          example: "Secret123!"
+        fullName:
+          type: string
+          example: "John Doe"
+        email:
+          type: string
+          format: email
+          example: "john@example.com"
+        isStudentAccount:
+          type: boolean
+          example: true
+        cuid:
+          type: string
+          pattern: "^C\\d{8}$"
+          example: "C12345678"
+    UserLoginRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: "john_doe"
+        password:
+          type: string
+          format: password
+          example: "Secret123!"
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: "john_doe"
+        fullName:
+          type: string
+          example: "John Doe"
+        email:
+          type: string
+          format: email
+          example: "john@example.com"
+        isStudentAccount:
+          type: boolean
+          example: true
+        cuid:
+          type: string
+          pattern: "^C\\d{8}$"
+          example: "C12345678"
+    Event:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - date
+        - location
+        - price
+        - imageUrl
+        - category
+        - organizer
+        - availableTickets
+        - eventType
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Taylor Swift - The Eras Tour"
+        description:
+          type: string
+          example: "Experience an unforgettable night with Taylor Swift's iconic hits."
+        date:
+          type: string
+          format: date-time
+          example: "2024-12-31T20:00:00Z"
+        location:
+          type: string
+          example: "SoFi Stadium, Los Angeles, CA"
+        price:
+          type: number
+          format: decimal
+          example: 150.00
+        imageUrl:
+          type: string
+          format: uri
+          example: "https://example.com/taylor.jpg"
+        category:
+          type: string
+          example: "Concert"
+        organizer:
+          type: string
+          example: "Live Nation"
+        availableTickets:
+          type: integer
+          example: 500
+        eventType:
+          type: string
+          example: "Concert"
+    EventCreateRequest:
+      type: object
+      required:
+        - name
+        - description
+        - date
+        - location
+        - price
+        - imageUrl
+        - category
+        - organizer
+        - availableTickets
+        - eventType
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        date:
+          type: string
+          format: date-time
+        location:
+          type: string
+        price:
+          type: number
+          format: decimal
+        imageUrl:
+          type: string
+          format: uri
+        category:
+          type: string
+        organizer:
+          type: string
+        availableTickets:
+          type: integer
+        eventType:
+          type: string
+    EventUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/Event'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "An error occurred."
