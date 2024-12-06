@@ -43,7 +43,7 @@ namespace TigerTix.Web.Controllers.Api
         {
             if (id != eventItem.Id)
             {
-                return BadRequest();
+                return BadRequest(new { message = "ID mismatch." });
             }
 
             _context.Entry(eventItem).State = EntityState.Modified;
@@ -81,7 +81,7 @@ namespace TigerTix.Web.Controllers.Api
             var eventItem = await _context.Events.FindAsync(id);
             if (eventItem == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Event not found." });
             }
 
             _context.Events.Remove(eventItem);
