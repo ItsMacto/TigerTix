@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TigerTix.Web.Data;
 
@@ -11,9 +12,11 @@ using TigerTix.Web.Data;
 namespace TigerTix.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241206232121_AddIsPublishedToEvents")]
+    partial class AddIsPublishedToEvents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +82,7 @@ namespace TigerTix.Web.Migrations
                             Id = 1,
                             AvailableTickets = 500,
                             Category = "Concert",
-                            Date = new DateTime(2025, 1, 5, 18, 24, 39, 751, DateTimeKind.Local).AddTicks(8080),
+                            Date = new DateTime(2025, 1, 5, 18, 21, 21, 540, DateTimeKind.Local).AddTicks(5830),
                             Description = "Experience an unforgettable night with Taylor Swift's iconic hits from all her eras.",
                             EventType = "Concert",
                             ImageUrl = "https://media.newyorker.com/photos/652d4cfca2dd76a04bfbc885/3:4/w_1281,h_1708,c_limit/Brody-Eras-Tour.jpg",
@@ -94,7 +97,7 @@ namespace TigerTix.Web.Migrations
                             Id = 2,
                             AvailableTickets = 300,
                             Category = "Sports",
-                            Date = new DateTime(2024, 12, 21, 18, 24, 39, 751, DateTimeKind.Local).AddTicks(8110),
+                            Date = new DateTime(2024, 12, 21, 18, 21, 21, 540, DateTimeKind.Local).AddTicks(5860),
                             Description = "Catch the action as two legendary NBA teams go head-to-head.",
                             EventType = "Sports",
                             ImageUrl = "https://s.yimg.com/ny/api/res/1.2/ntZ3XGuHy7vENfP_QzxHKg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQ1MA--/https://media.zenfs.com/en/hoops_hype_usa_today_sports_articles_974/fe1e67ea89571d4532c900e622786b6f",
@@ -109,7 +112,7 @@ namespace TigerTix.Web.Migrations
                             Id = 3,
                             AvailableTickets = 450,
                             Category = "Concert",
-                            Date = new DateTime(2025, 1, 15, 18, 24, 39, 751, DateTimeKind.Local).AddTicks(8120),
+                            Date = new DateTime(2025, 1, 15, 18, 21, 21, 540, DateTimeKind.Local).AddTicks(5860),
                             Description = "Join Coldplay for an incredible evening of music and visual spectacle.",
                             EventType = "Concert",
                             ImageUrl = "https://plsn.com/site/wp-content/uploads/1_COLDPLAY-12-©-Steve-Jennings.jpg",
@@ -124,7 +127,7 @@ namespace TigerTix.Web.Migrations
                             Id = 4,
                             AvailableTickets = 350,
                             Category = "Sports",
-                            Date = new DateTime(2024, 12, 31, 18, 24, 39, 751, DateTimeKind.Local).AddTicks(8120),
+                            Date = new DateTime(2024, 12, 31, 18, 21, 21, 540, DateTimeKind.Local).AddTicks(5870),
                             Description = "Historic NFL rivalry game between the Packers and the Bears.",
                             EventType = "Sports",
                             ImageUrl = "https://packerswire.usatoday.com/wp-content/uploads/sites/57/2019/09/gettyimages-1172622091-e1568073746100.jpg?w=1000&h=600&crop=1",
@@ -139,7 +142,7 @@ namespace TigerTix.Web.Migrations
                             Id = 5,
                             AvailableTickets = 400,
                             Category = "Concert",
-                            Date = new DateTime(2024, 12, 26, 18, 24, 39, 751, DateTimeKind.Local).AddTicks(8120),
+                            Date = new DateTime(2024, 12, 26, 18, 21, 21, 540, DateTimeKind.Local).AddTicks(5870),
                             Description = "Ed Sheeran brings his latest hits and fan favorites to a city near you.",
                             EventType = "Concert",
                             ImageUrl = "https://surgfm.com/wp-content/uploads/2023/03/ed-sheeran-1.webp",
@@ -154,7 +157,7 @@ namespace TigerTix.Web.Migrations
                             Id = 6,
                             AvailableTickets = 250,
                             Category = "Sports",
-                            Date = new DateTime(2024, 12, 16, 18, 24, 39, 751, DateTimeKind.Local).AddTicks(8120),
+                            Date = new DateTime(2024, 12, 16, 18, 21, 21, 540, DateTimeKind.Local).AddTicks(5870),
                             Description = "MLB showdown between the Yankees and the Red Sox at the iconic Yankee Stadium.",
                             EventType = "Sports",
                             ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fseatgeek.com%2Fyankees-red-sox-tickets&psig=AOvVaw3CNpQQifM862SFlYfhF76O&ust=1730771043013000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLj2k9vGwYkDFQAAAAAdAAAAABAE",
@@ -169,7 +172,7 @@ namespace TigerTix.Web.Migrations
                             Id = 7,
                             AvailableTickets = 550,
                             Category = "Concert",
-                            Date = new DateTime(2025, 1, 10, 18, 24, 39, 751, DateTimeKind.Local).AddTicks(8130),
+                            Date = new DateTime(2025, 1, 10, 18, 21, 21, 540, DateTimeKind.Local).AddTicks(5870),
                             Description = "Join BTS for a groundbreaking concert experience filled with energy and fan-favorite tracks.",
                             EventType = "Concert",
                             ImageUrl = "https://static.wikia.nocookie.net/the-bangtan-boys/images/4/43/BTS_Map_of_the_Soul_Tour.jpeg/revision/latest?cb=20200122062646",
@@ -184,7 +187,7 @@ namespace TigerTix.Web.Migrations
                             Id = 8,
                             AvailableTickets = 400,
                             Category = "Sports",
-                            Date = new DateTime(2024, 12, 28, 18, 24, 39, 751, DateTimeKind.Local).AddTicks(8130),
+                            Date = new DateTime(2024, 12, 28, 18, 21, 21, 540, DateTimeKind.Local).AddTicks(5870),
                             Description = "NFC East rivals face off in an intense game at AT&T Stadium.",
                             EventType = "Sports",
                             ImageUrl = "https://static.clubs.nfl.com/image/upload/t_editorial_landscape_12_desktop/cowboys/qrozabo6cfsguc3bexop",
