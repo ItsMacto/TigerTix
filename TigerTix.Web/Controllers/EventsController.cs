@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TigerTix.Web.Models;
-using System.Net.Http;
 using System.Net.Http.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TigerTix.Web.Controllers
 {
@@ -103,6 +103,63 @@ namespace TigerTix.Web.Controllers
 
             TempData["SuccessMessage"] = "Purchase successful!";
             return RedirectToAction("Details", new { id = eventId });
+        }
+
+        // GET: /Events/Create
+        [Authorize] // Remove this if you want it open to anyone
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: /Events/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize] // Remove this if you want it open to anyone
+        public async Task<IActionResult> Create(Event newEvent)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(newEvent);
+            }
+
+            // By default, IsPublished can be whatever the user sets (from the form)
+            // or you can force it to false here if you prefer a two-step publish process.
+            // newEvent.IsPublished = false;
+
+            var response = await _httpClient.PostAsJsonAsync("api/EventsApi", newEvent);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            ModelState.AddModelError("", "There was an error creating the event. Please try again.");
+            return View(newEvent);
+        }
+
+        // Optional: Publish action to set event as published later
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Publish(int id)
+        {
+            var eventItem = await _httpClient.GetFromJsonAsync<Event>($"api/EventsApi/{id}");
+            if (eventItem == null)
+            {
+                return NotFound();
+            }
+
+            eventItem.IsPublished = true;
+            var response = await _httpClient.PutAsJsonAsync($"api/EventsApi/{id}", eventItem);
+            if (!response.IsSuccessStatusCode)
+            {
+                TempData["ErrorMessage"] = "Failed to publish event.";
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Event published successfully!";
+            }
+
+            return RedirectToAction(nameof(Details), new { id });
         }
     }
 }

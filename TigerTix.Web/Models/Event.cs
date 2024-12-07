@@ -19,5 +19,6 @@ namespace TigerTix.Web.Models
         public required string Organizer { get; set; }      // Event Organizer
         public int AvailableTickets { get; set; }  // Number of Available Tickets
         public string? EventType {  get; set; } // event type for filtering
+        public bool IsPublished { get; set; } = false; // Event is published or not
     }
 }

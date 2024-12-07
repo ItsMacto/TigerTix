@@ -37,19 +37,20 @@ namespace TigerTix.Web.Controllers.Api
 
         // POST: api/AccountsApi/Login
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(User user)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var dbUser = await _context.Users.SingleOrDefaultAsync(u => u.Username == user.Username);
+            var dbUser = await _context.Users.SingleOrDefaultAsync(u => u.Username == request.Username);
             if (dbUser == null)
             {
                 return Unauthorized();
             }
 
-            var result = _passwordHasher.VerifyHashedPassword(dbUser, dbUser.Password, user.Password);
+            var result = _passwordHasher.VerifyHashedPassword(dbUser, dbUser.Password, request.Password);
             if (result != PasswordVerificationResult.Success)
             {
                 return Unauthorized();
             }
+
             // Return user data (excluding sensitive information)
             var userData = new User
             {

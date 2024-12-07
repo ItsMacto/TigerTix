@@ -32,12 +32,17 @@ namespace TigerTix.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(User user)
+        public async Task<IActionResult> Login(string username, string password)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/AccountsApi/Login", user);
+            var loginRequest = new LoginRequest
+            {
+                Username = username,
+                Password = password
+            };
+
+            var response = await _httpClient.PostAsJsonAsync("api/AccountsApi/Login", loginRequest);
             if (response.IsSuccessStatusCode)
             {
-                // Retrieve the user from the API (you may need to adjust this)
                 var dbUser = await response.Content.ReadFromJsonAsync<User>();
 
                 // Create claims based on user information
@@ -46,8 +51,7 @@ namespace TigerTix.Web.Controllers
                     new Claim(ClaimTypes.Name, dbUser.Username),
                     new Claim(ClaimTypes.NameIdentifier, dbUser.Id.ToString()),
                     new Claim(ClaimTypes.Email, dbUser.Email ?? ""),
-                    new Claim("FullName", dbUser.FullName ?? ""),
-                    // Add other claims as necessary
+                    new Claim("FullName", dbUser.FullName ?? "")
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -69,7 +73,7 @@ namespace TigerTix.Web.Controllers
             }
 
             ModelState.AddModelError("", "Invalid login attempt.");
-            return View(user);
+            return View();
         }
 
         public IActionResult Register()
@@ -84,7 +88,7 @@ namespace TigerTix.Web.Controllers
             if (response.IsSuccessStatusCode)
             {
                 // Optionally log the user in after successful registration
-                return await Login(user);
+                return await Login(user.Username, user.Password);
             }
 
             var errorContent = await response.Content.ReadAsStringAsync();
