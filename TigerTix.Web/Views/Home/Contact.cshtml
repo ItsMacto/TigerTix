@@ -1,51 +1,68 @@
 <!-- Views/Home/Contact.cshtml -->
 @{
-    ViewData["Title"] = "Contact";
+    ViewData["Title"] = "Contact Us";
 }
 
-<h2>Contact Us</h2>
-<p>
-    Email: <a href="mailto:support@tigertix.com">support@tigertix.com</a>
-</p>
-
-<h3>Frequently Asked Questions</h3>
-
-<div class="accordion" id="faqAccordion">
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="faqHeadingOne">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
-                How do I buy tickets?
-            </button>
-        </h2>
-        <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
-            <div class="accordion-body">
-                To buy tickets, browse the events on our homepage, select an event, and click "Buy Ticket" on the event details page. You will be able to select the number of tickets and proceed with the purchase.
-            </div>
-        </div>
-    </div>
+<div class="container my-5">
+    <h1 class="text-center mb-4">Contact Us</h1>
     
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="faqHeadingTwo">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
-                Can I get a refund on my tickets?
-            </button>
-        </h2>
-        <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
-            <div class="accordion-body">
-                Unfortunately, all ticket sales are final. Please review your purchase carefully before completing the transaction.
-            </div>
-        </div>
+    <!-- Contact Section -->
+    <div class="text-center mb-5">
+        <p>
+            If you have any questions, concerns, or feedback, feel free to reach out to us. 
+            We're here to help you have the best experience with TigerTix!
+        </p>
+        <p>
+            <strong>Email:</strong> <a href="mailto:support@tigertix.com">support@tigertix.com</a>
+        </p>
     </div>
-    
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="faqHeadingThree">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
-                How do I contact support?
-            </button>
-        </h2>
-        <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
-            <div class="accordion-body">
-                You can reach out to us by emailing <a href="mailto:support@tigertix.com">support@tigertix.com</a> for any questions or issues.
+
+    <hr class="my-4">
+
+    <!-- FAQ Section -->
+    <div>
+        <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+        <div class="accordion" id="faqAccordion">
+            <!-- Question 1 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        How do I buy tickets?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To buy tickets, browse the events on our homepage, select an event, and click "Buy Ticket" on the event details page. You will be able to select the number of tickets and proceed with the purchase.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        Can I get a refund on my tickets?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Unfortunately, all ticket sales are final. Please review your purchase carefully before completing the transaction.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        How do I contact support?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        You can reach out to us by emailing <a href="mailto:support@tigertix.com">support@tigertix.com</a> for any questions or issues.
+                    </div>
+                </div>
             </div>
         </div>
     </div>

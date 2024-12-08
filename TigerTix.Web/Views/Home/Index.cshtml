@@ -1,12 +1,45 @@
-﻿<!-- Views/Home/Index.cshtml -->
-@{
+﻿@{
     ViewData["Title"] = "Home";
 }
 
-<div class="jumbotron text-center">
-    <h1 class="display-4">Welcome to TigerTix!</h1>
-    <p class="lead">Your one-stop destination for event tickets.</p>
-    <hr class="my-4">
-    <p>Discover events and buy tickets easily.</p>
-    <a class="btn btn-primary btn-lg" href="/Events" role="button">Browse Events</a>
+<div class="hero-section text-center text-white d-flex align-items-center" style="background: linear-gradient(to bottom, #6a11cb, #2575fc); height: 100vh;">
+    <div class="container">
+        <h1 class="display-3 font-weight-bold mb-3">Welcome to TigerTix!</h1>
+        <p class="lead mb-4">Your ultimate destination for discovering and booking events effortlessly.</p>
+        <a href="/Events" class="btn btn-primary btn-lg shadow-lg px-4 py-2">Browse Events</a>
+    </div>
 </div>
+
+<div class="features-section text-center py-5">
+    <div class="container">
+        <h2 class="mb-4">Why Choose TigerTix?</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <i class="fas fa-ticket-alt fa-3x text-primary mb-3"></i>
+                <h5>Wide Range of Events</h5>
+                <p>From concerts to sports, we cover all your favorite events.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-lock fa-3x text-primary mb-3"></i>
+                <h5>Secure Payments</h5>
+                <p>Pay confidently with our secure and seamless checkout process.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                <h5>User-Friendly Experience</h5>
+                <p>Our platform is built to make your ticket-buying journey effortless.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer bg-dark text-white py-4">
+    <div class="container text-center">
+        <p>&copy; 2024 TigerTix. All Rights Reserved.</p>
+        <div class="social-icons">
+            <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+</footer>

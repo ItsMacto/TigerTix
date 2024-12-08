@@ -4,38 +4,61 @@
     ViewData["Title"] = "Events";
 }
 
-<h2>Upcoming Events</h2>
+<div class="container my-4">
+    <h1 class="text-center mb-4">Upcoming Events</h1>
 
-<!-- Event Filter Form -->
-<form asp-action="Index" method="get" class="form-inline mb-4">
-    <!-- Search Field -->
-    <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control mr-sm-2" placeholder="Search events..." />
+    <!-- Event Filter Form -->
+    <form asp-action="Index" method="get" class="row g-3 align-items-center mb-4">
+        <!-- Search Field -->
+        <div class="col-md-6">
+            <input 
+                type="text" 
+                name="searchString" 
+                value="@ViewData["CurrentFilter"]" 
+                class="form-control" 
+                placeholder="Search events..." 
+            />
+        </div>
 
-    <!-- Event Type Dropdown -->
-    <select name="eventType" class="form-control mr-sm-2">
-        <option value="">Filter Events</option>
-        <option value="Concert">Concert</option>
-        <option value="Sports">Sports</option>
-    </select>
-
-    <button type="submit" class="btn btn-outline-success">Search</button>
-</form>
-
-<div class="row">
-    @foreach (var item in Model)
-    {
+        <!-- Event Type Dropdown -->
         <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-                <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name">
-                <div class="card-body">
-                    <h5 class="card-title">@item.Name</h5>
-                    <p class="card-text">@item.Description</p>
-                    <p><strong>Date:</strong> @item.Date.ToString("dd MMM yyyy")</p>
-                    <p><strong>Category:</strong> @item.Category</p>
-                    <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-primary">View Details</a>
+            <select name="eventType" class="form-select">
+                <option value="">Filter Events</option>
+                <option value="Concert">Concert</option>
+                <option value="Sports">Sports</option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-outline-success w-100">Search</button>
+        </div>
+    </form>
+
+    <!-- Events Display Section -->
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img 
+                        src="@item.ImageUrl" 
+                        class="card-img-top" 
+                        alt="@item.Name" 
+                        style="height: 200px; object-fit: cover;" 
+                    />
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">@item.Description</p>
+                        <ul class="list-unstyled mb-3">
+                            <li><strong>Date:</strong> @item.Date.ToString("dd MMM yyyy")</li>
+                            <li><strong>Category:</strong> @item.Category</li>
+                        </ul>
+                        <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-primary mt-auto">
+                            View Details
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-}
+        }
+    </div>
 </div>
