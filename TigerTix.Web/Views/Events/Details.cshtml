@@ -14,21 +14,35 @@
     <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
 }
 
-<div class="card mb-4">
-    <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name">
-    <div class="card-body">
-        <h2 class="card-title">@Model.Name</h2>
-        <p class="card-text">@Model.Description</p>
-        <p><strong>Date:</strong> @Model.Date.ToString("dddd, dd MMMM yyyy")</p>
-        <p><strong>Time:</strong> @Model.Date.ToString("hh:mm tt")</p>
-        <p><strong>Location:</strong> @Model.Location</p>
-        <p><strong>Category:</strong> @Model.Category</p>
-        <p><strong>Organizer:</strong> @Model.Organizer</p>
-        <p><strong>Price:</strong> $@Model.Price</p>
-        <p><strong>Tickets Available:</strong> @Model.AvailableTickets</p>
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#buyTicketModal">
-            Buy Ticket
-        </button>
+<div class="container my-5">
+    <div class="row align-items-center">
+        <!-- Image Section -->
+        <div class="col-md-6">
+            <img 
+                src="@Model.ImageUrl" 
+                alt="@Model.Name" 
+                class="img-fluid rounded shadow-sm"
+                style="max-height: 400px; object-fit: cover; width: 100%;"
+            />
+        </div>
+
+        <!-- Event Details Section -->
+        <div class="col-md-6">
+            <h2 class="mb-3">@Model.Name</h2>
+            <p class="text-muted">
+                <em>@Model.Description</em>
+            </p>
+            <p><strong>Date:</strong> @Model.Date.ToString("dddd, dd MMMM yyyy")</p>
+            <p><strong>Time:</strong> @Model.Date.ToString("hh:mm tt")</p>
+            <p><strong>Location:</strong> @Model.Location</p>
+            <p><strong>Category:</strong> @Model.Category</p>
+            <p><strong>Organizer:</strong> @Model.Organizer</p>
+            <p><strong>Price:</strong> $@Model.Price</p>
+            <p><strong>Tickets Available:</strong> @Model.AvailableTickets</p>
+            <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#buyTicketModal">
+                Buy Ticket
+            </button>
+        </div>
     </div>
 </div>
 
@@ -51,10 +65,19 @@
                 <form method="post" action="/Events/ConfirmPurchase">
                     <div class="mb-3">
                         <label for="ticketQuantity" class="form-label">Select Quantity</label>
-                        <input type="number" name="ticketQuantity" id="ticketQuantity" class="form-control" min="1" max="@Model.AvailableTickets" value="1" required />
+                        <input 
+                            type="number" 
+                            name="ticketQuantity" 
+                            id="ticketQuantity" 
+                            class="form-control" 
+                            min="1" 
+                            max="@Model.AvailableTickets" 
+                            value="1" 
+                            required 
+                        />
                     </div>
                     <input type="hidden" name="eventId" value="@Model.Id" />
-                    <button type="submit" class="btn btn-primary"><Address><Address>Add To Cart</Address></Address></button>
+                    <button type="submit" class="btn btn-primary">Add To Cart</button>
                 </form>
             </div>
         </div>
