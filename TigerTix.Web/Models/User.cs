@@ -13,7 +13,7 @@ namespace TigerTix.Web.Models
 
         public bool IsStudentAccount { get; set; } // Indicates if the account is a student account
         
-        [RegularExpression(@"^C\d{8}$", ErrorMessage = "CUID should start with 'C' followed by 8 digits.")]
+        [RegularExpression(@"(^C\d{8}$)|(^$)", ErrorMessage = "CUID should start with 'C' followed by 8 digits.")]
         public string? CUID { get; set; }       // User's CUID if they are a student
     }
 }

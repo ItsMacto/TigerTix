@@ -1,0 +1,85 @@
+@model TigerTix.Web.Models.Event
+
+@{
+    ViewData["Title"] = "Create Event";
+}
+
+<h2>Create a New Event</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" placeholder="Event Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control" placeholder="Describe the event"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Date" class="form-label"></label>
+        <input asp-for="Date" type="datetime-local" class="form-control" />
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Location" class="form-label"></label>
+        <input asp-for="Location" class="form-control" placeholder="Location" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" type="number" step="0.01" class="form-control" placeholder="Price" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Category" class="form-label"></label>
+        <input asp-for="Category" class="form-control" placeholder="Category (e.g. Concert, Sports)" />
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EventType" class="form-label">Event Type</label>
+        <select asp-for="EventType" class="form-control">
+            <option value="">Select event type</option>
+            <option value="Concert">Concert</option>
+            <option value="Sports">Sports</option>
+        </select>
+        <span asp-validation-for="EventType" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ImageUrl" class="form-label"></label>
+        <input asp-for="ImageUrl" class="form-control" placeholder="Image URL for the event" />
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Organizer" class="form-label"></label>
+        <input asp-for="Organizer" class="form-control" placeholder="Organizer name or organization" />
+        <span asp-validation-for="Organizer" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="AvailableTickets" class="form-label"></label>
+        <input asp-for="AvailableTickets" type="number" class="form-control" placeholder="Number of available tickets" />
+        <span asp-validation-for="AvailableTickets" class="text-danger"></span>
+    </div>
+
+    <!-- Checkbox to publish immediately (optional) -->
+    <div class="form-check mb-3">
+        <input asp-for="IsPublished" class="form-check-input" type="checkbox" />
+        <label asp-for="IsPublished" class="form-check-label">Publish Immediately</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Event</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

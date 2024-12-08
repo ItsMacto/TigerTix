@@ -1,60 +1,61 @@
-// Controllers/EventsController.cs
 using Microsoft.AspNetCore.Mvc;
-using TigerTix.Web.Data;
 using TigerTix.Web.Models;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-// using System.Collections.Generic;
-// using System.Linq;
+using System.Net.Http.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TigerTix.Web.Controllers
 {
     public class EventsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly HttpClient _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EventsController(ApplicationDbContext context)
+        public EventsController(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
         {
-            _context = context;
-        }
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
+            _httpContextAccessor = httpContextAccessor;
 
+            // Set the BaseAddress to the current request's base URL
+            var request = _httpContextAccessor.HttpContext.Request;
+            _httpClient.BaseAddress = new Uri($"{request.Scheme}://{request.Host}");
+        }
 
         // GET: Events
         public async Task<IActionResult> Index(string searchString, string eventType)
         {
-            var events = from e in _context.Events
-                         select e;
+            var events = await _httpClient.GetFromJsonAsync<IEnumerable<Event>>("api/EventsApi");
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                events = events.Where(s => s.Name.Contains(searchString) || s.Category.Contains(searchString));
+                events = events.Where(e => e.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                                           || e.Category.Contains(searchString, StringComparison.OrdinalIgnoreCase));
             }
 
-            // Filter by event type if provided
             if (!string.IsNullOrEmpty(eventType))
             {
                 events = events.Where(e => e.EventType == eventType);
             }
 
-            return View(await events.ToListAsync());
+            return View(events);
         }
 
         // GET: Events/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var eventItem = await _context.Events.FindAsync(id);
+            var eventItem = await _httpClient.GetFromJsonAsync<Event>($"api/EventsApi/{id}");
             if (eventItem == null)
             {
                 return NotFound();
             }
+
             return View(eventItem);
         }
 
         // POST: Events/ConfirmPurchase
         [HttpPost]
-        public IActionResult ConfirmPurchase(int eventId, int ticketQuantity)
+        public async Task<IActionResult> ConfirmPurchase(int eventId, int ticketQuantity)
         {
-            var eventItem = _context.Events.Find(eventId);
+            var eventItem = await _httpClient.GetFromJsonAsync<Event>($"api/EventsApi/{eventId}");
             if (eventItem == null || ticketQuantity <= 0)
             {
                 return RedirectToAction("Details", new { id = eventId });
@@ -65,7 +66,7 @@ namespace TigerTix.Web.Controllers
             var totalPrice = ticketQuantity * eventItem.Price;
             if (isStudent)
             {
-                totalPrice *= 0.9m; // Applying a 10% discount for students
+                totalPrice *= 0.9m; // Apply 10% discount for students
             }
 
             var viewModel = new ConfirmPurchaseViewModel
@@ -81,21 +82,84 @@ namespace TigerTix.Web.Controllers
 
         // POST: Events/CompletePurchase
         [HttpPost]
-        public IActionResult CompletePurchase(int eventId, int ticketQuantity, decimal totalPrice)
+        public async Task<IActionResult> CompletePurchase(int eventId, int ticketQuantity)
         {
-            // Here you could add logic to update the database, e.g., deduct tickets, process payment, etc.
-            var eventItem = _context.Events.Find(eventId);
+            var eventItem = await _httpClient.GetFromJsonAsync<Event>($"api/EventsApi/{eventId}");
             if (eventItem == null || ticketQuantity <= 0 || ticketQuantity > eventItem.AvailableTickets)
             {
+                TempData["ErrorMessage"] = "Invalid purchase request.";
                 return RedirectToAction("Details", new { id = eventId });
             }
 
-            // Deduct the ticket quantity from the available tickets
+            // Update ticket availability
             eventItem.AvailableTickets -= ticketQuantity;
-            _context.SaveChanges();
+
+            var response = await _httpClient.PutAsJsonAsync($"api/EventsApi/{eventId}", eventItem);
+            if (!response.IsSuccessStatusCode)
+            {
+                TempData["ErrorMessage"] = "Purchase failed. Please try again.";
+                return RedirectToAction("Details", new { id = eventId });
+            }
 
             TempData["SuccessMessage"] = "Purchase successful!";
             return RedirectToAction("Details", new { id = eventId });
+        }
+
+        // GET: /Events/Create
+        [Authorize] // Remove this if you want it open to anyone
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: /Events/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize] // Remove this if you want it open to anyone
+        public async Task<IActionResult> Create(Event newEvent)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(newEvent);
+            }
+
+            // By default, IsPublished can be whatever the user sets (from the form)
+            // or you can force it to false here if you prefer a two-step publish process.
+            // newEvent.IsPublished = false;
+
+            var response = await _httpClient.PostAsJsonAsync("api/EventsApi", newEvent);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            ModelState.AddModelError("", "There was an error creating the event. Please try again.");
+            return View(newEvent);
+        }
+
+        // Optional: Publish action to set event as published later
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Publish(int id)
+        {
+            var eventItem = await _httpClient.GetFromJsonAsync<Event>($"api/EventsApi/{id}");
+            if (eventItem == null)
+            {
+                return NotFound();
+            }
+
+            eventItem.IsPublished = true;
+            var response = await _httpClient.PutAsJsonAsync($"api/EventsApi/{id}", eventItem);
+            if (!response.IsSuccessStatusCode)
+            {
+                TempData["ErrorMessage"] = "Failed to publish event.";
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Event published successfully!";
+            }
+
+            return RedirectToAction(nameof(Details), new { id });
         }
     }
 }
